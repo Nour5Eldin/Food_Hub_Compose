@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                    Box(modifier = Modifier.padding(innerPadding)){}
                     //Auth
-
+                    AuthScreen()
                 }
             }
         }
