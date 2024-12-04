@@ -20,6 +20,7 @@ import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.noureldin.foodhub.data.FoodApi
 import com.noureldin.foodhub.ui.features.auth.AuthScreen
+import com.noureldin.foodhub.ui.features.auth.signup.SignUpScreen
 import com.noureldin.foodhub.ui.theme.FoodHubTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -74,7 +75,8 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                    Box(modifier = Modifier.padding(innerPadding)){}
                     //Auth
-                    AuthScreen()
+                    //AuthScreen()
+                    SignUpScreen()
                 }
             }
         }
