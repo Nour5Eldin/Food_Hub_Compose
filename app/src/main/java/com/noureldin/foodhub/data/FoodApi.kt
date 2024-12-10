@@ -1,6 +1,7 @@
 package com.noureldin.foodhub.data
 
 import com.noureldin.foodhub.data.model.AuthResponse
+import com.noureldin.foodhub.data.model.SignInRequest
 import com.noureldin.foodhub.data.model.SignUpRequest
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -13,4 +14,7 @@ interface FoodApi {
 
     @POST("/auth/signup")
     suspend fun signup(@Body request: SignUpRequest): AuthResponse
+
+    @POST("/auth/login")
+    suspend fun signIn(@Body request: SignInRequest): AuthResponse
 }
