@@ -1,6 +1,5 @@
 package com.noureldin.foodhub.ui.features.auth.signup
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -49,14 +48,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.noureldin.foodhub.R
 import com.noureldin.foodhub.ui.FoodHubTextField
 import com.noureldin.foodhub.ui.GroupSocialButtons
+import com.noureldin.foodhub.ui.navigation.AuthScreen
+import com.noureldin.foodhub.ui.navigation.Home
+import com.noureldin.foodhub.ui.navigation.Login
 import com.noureldin.foodhub.ui.theme.orange
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
-fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
+fun SignUpScreen(navController: NavController,viewModel: SignUpViewModel = hiltViewModel()) {
     Box(modifier = Modifier.fillMaxSize()){
 
         val name = viewModel.name.collectAsStateWithLifecycle()
@@ -88,15 +92,14 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
             viewModel.navigationEvent.collectLatest { event ->
                 when (event) {
                     is SignUpViewModel.SignupNavigationEvent.NavigateToHome -> {
-                        Toast.makeText(
-                            context,
-                            "Sign up successful",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                       navController.navigate(Home){
+                           popUpTo(AuthScreen){
+                               inclusive = true
+                           }
+                       }
                     }
-
-                    else -> {
-
+                    is SignUpViewModel.SignupNavigationEvent.NavigateToLogin -> {
+                        navController.navigate(Login)
                     }
                 }
             }
@@ -125,7 +128,6 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
                     Text(text = stringResource(id = R.string.fullName), color = Color.Gray)
                 },
                 modifier = Modifier.fillMaxWidth(),
-                visualTransformation = PasswordVisualTransformation(),
             )
             Spacer(modifier = Modifier.size(26.dp))
             FoodHubTextField(
@@ -208,7 +210,7 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
                 text = styledText,
                 modifier = Modifier
                     .padding(8.dp)
-                    .clickable { /* Handle click */ }
+                    .clickable { viewModel.onLoginClicked()}
                     .fillMaxWidth(),
                 style = androidx.compose.ui.text.TextStyle(
                     textAlign = TextAlign.Center
@@ -222,5 +224,5 @@ fun SignUpScreen(viewModel: SignUpViewModel = hiltViewModel()) {
 @Preview(showBackground = true)
 @Composable
 private fun SignUpScreenPreview() {
-    SignUpScreen()
+    SignUpScreen(rememberNavController())
 }
